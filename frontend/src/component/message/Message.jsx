@@ -20,7 +20,6 @@ const Message = ({ message }) => {
           <div className='avatar hidden md:block chat-image'>
               <div className='md:w-10 w-6 rounded-full'>
                    <img alt="Tailwind CSS chat bubble component" src={profilePic} />
-                  
               </div>
               
           </div>
