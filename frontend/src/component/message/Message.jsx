@@ -17,8 +17,8 @@ const Message = ({ message }) => {
 
   return (
       <div className={`chat ${chatClassName}`}>
-          <div className='avatar chat-image'>
-              <div className='w-10 rounded-full'>
+          <div className='avatar hidden md:block chat-image'>
+              <div className='md:w-10 w-6 rounded-full'>
                    <img alt="Tailwind CSS chat bubble component" src={profilePic} />
                   
               </div>
@@ -26,7 +26,7 @@ const Message = ({ message }) => {
           </div>
           
           {/* <div> */}
-      <div className={`chat-bubble text-white ${bubbleChatColor} ${shakeClass}`}>{message.message}</div>
+      <div className={`chat-bubble text-white ${bubbleChatColor} ${shakeClass} text-sm md:text-md`}>{message.message}</div>
       <div className='chat-footer text-white opacity-50 text-xs flex gap-1 items-center'>{formatedTime }</div>
           {/* </div> */}
     </div>
