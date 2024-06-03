@@ -2,39 +2,37 @@ import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
 
 export const sendMessage = async (req, res) => {
-    console.log("req.user", req)
-    try {
-        const {message} = req.body;
-        const {id: receiverId} = req.params;
-        const senderId = req.user._id;
+	try {
+		const { message } = req.body;
+		const { id: receiverId } = req.params;
+		const senderId = req.user._id;
 
+		let conversation = await Conversation.findOne({
+			participants: { $all: [senderId, receiverId] },
+		});
 
-       let conservation = await Conversation.findOne({
-            participants: { $all: [senderId, receiverId] },
-       });
-        
-        if (!conservation) {
-            conservation = await Conversation.create({
-                participants: [senderId, receiverId],
-            });
-        }
+		if (!conversation) {
+			conversation = await Conversation.create({
+				participants: [senderId, receiverId],
+			});
+		}
 
-        const newMessage = new Message({
-            senderId,
-            receiverId,
-            message,
-        })
+		const newMessage = new Message({
+			senderId,
+			receiverId,
+			message,
+		});
 
-        if (newMessage) {
-            conservation.messages.push(newMessage._id);
-        }
+		if (newMessage) {
+			conversation.messages.push(newMessage._id);
+		}
 
         // SOCKET IO FUNCTIONALITY WILL GO HERE
 
         // await conservation.save();
         // await newMessage.save();
        
-        await Promise.all([conservation.save(), newMessage.save()] );
+        await Promise.all([conversation.save(), newMessage.save()]);
 
         res.status(201).json(newMessage);
 
